@@ -9,25 +9,61 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
         <style>
+            body {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                border-radius: 5px;
+            }
+
             .kommentare {
                 background-color: aquamarine;
                 margin: 10px;
                 padding: 20px;
+                border-radius: 5px;
             }
 
-            .green {
-                background-color: green;
+            button {
+                margin: 15px;
+                padding: 10px 30px 10px 30px;
+                border-radius: 5px;
+                border: 1px solid darkgray;
             }
 
-            .red {
-                background-color: red;
+            button:hover { 
+                background-color: lightgray;
             }
 
+            .small {
+                font-size: smaller;
+                margin-bottom: 5px;
+            }
+
+            .greeting {
+                margin-bottom: 15px;
+                font-size: x-large;
+            }
+
+            #counter {
+                float: right;
+                margin: 15px;
+                padding: 10px 30px 10px 30px;
+            }
+
+            #input-container {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            input {
+                border-radius: 5px; 
+                border: 1px solid darkgray;
+                margin: 15px;
+                padding: 10px 30px 10px 30px;
+            }
         </style>
 
         <script>
             $('document').ready(() => {
-                let meinButton = $('#mein-button')
+                let meinButton = $('#kommentar-button')
                 let kommentarContainer = $('#kommentar-container')
                 let counterContainer = $('#counter')
                 let textField = $('#text-field')
@@ -35,13 +71,67 @@
                 let playButton = $('#play-button')
                 let volumeUpButton = $('#volume-up-button')
                 let volumeDownButton = $('#volume-down-button')
+                let backendUri = 'https://simon-guesbook-backend.herokuapp.com/greetings/simon'
                 
                 let kommentarWurdeGeadded = false
-                let counter = 0
 
-                let audioFile = new Audio('cena.mp3')
-                let audioIsPlaying = false
-                audioFile.volume = 0.5
+                function updateCommentsFromResponse(response) {
+                    if (response.status === 200) {
+                        kommentarContainer.empty()
+
+                        response.data.forEach(element => {
+                            let likeButton = $('<button>like</button>')
+                            likeButton.click(() => {
+                                likeItem(element._id)
+                            })
+
+                            let deleteButton = $('<button>löschen</button>')
+                            deleteButton.click(() => {
+                                deleteItem(element._id)
+                            })
+
+                            let kommentarComponent = $(`
+                                <div class="kommentare">
+                                    <div class="small">${element.user}:</div>
+                                    <div class="greeting">${element.greeting}</div>
+                                    <div class="small">likes: ${element.likes}</div>
+                                </div>`)
+                                .append(likeButton)
+                                .append(deleteButton)
+
+                            kommentarContainer.append(kommentarComponent)
+                        });
+
+                        counterContainer.text(`Kommentare: ${response.data.length}`)
+                    }
+                    else {
+                        alert("backend call failed")
+                    }
+                }
+
+                function getAllComments() {
+                    axios.get(backendUri)
+                    .then(response => {
+                        updateCommentsFromResponse(response)
+                    })
+                }
+
+                function deleteItem(itemId) {
+                    axios.delete(`${backendUri}/${itemId}`)
+                    .then(response => {
+                        updateCommentsFromResponse(response)
+                    })
+                }
+
+                function likeItem(itemId) {
+                    axios.put(`${backendUri}/${itemId}`)
+                    .then(response => {
+                        updateCommentsFromResponse(response)
+                    })
+                }
+
+                getAllComments()
+                
 
                 playButton.click(() => {
                     if (audioIsPlaying) {
@@ -54,66 +144,38 @@
                     }
                 })
 
-                volumeUpButton.click(() => {
-                    audioFile.volume += 0.1
-                })
-
-                volumeDownButton.click(() => {
-                    audioFile.volume -= 0.1
-                })
-
                 meinButton.click(() => {
-                    counter = counter + 1
                     let aktuellerText = textField.val()
                     let aktuellerName = nameField.val()
-
-                    if(counter > 5) {
-                        counterContainer.removeClass('green')
-                        counterContainer.addClass('red')
-                    }
 
                     if (!kommentarWurdeGeadded) {
                         kommentarContainer.empty()
                         kommentarWurdeGeadded = true
                     }
 
-                    kommentarContainer.append(`
-                    <div class="kommentare">
-                        ${aktuellerName} hat geschrieben: ${aktuellerText} <button>löschen</button>
-                    </div>`)
-                    counterContainer.text(`Kommentare: ${counter}`)
+                    axios.post(backendUri, {
+                        user: aktuellerName,
+                        greeting: aktuellerText
+                    }).then(response => {
+                        if (response.status === 200) {
+                            getAllComments()
+                        }
+                    })
                 })
             })
             
         </script>
     </head>
     <body>
-        <div>
-            <span>Name:</span>
-            <input type="text" id="name-field">
+        <div id="input-container">
+            <input type="text" id="text-field" placeholder="Kommentar">
+            <input type="text" id="name-field" placeholder="Name">
+            <button id="kommentar-button">
+                Kommentar dalassen
+            </button>
         </div>
-        <div>
-            <span>Kommentar:</span>
-            <input type="text" id="text-field">
-        </div>
 
-        <button id="mein-button">
-            Adde Kommentar
-        </button>
-
-        <button id="play-button">
-            Play/Stop Musik
-        </button>
-
-        <button id="volume-down-button">
-            -
-        </button>
-
-        <button id="volume-up-button">
-            +
-        </button>
-
-        <div id="counter" class="green">
+        <div id="counter">
             Kommentare: 0
         </div>
 
