@@ -48,7 +48,10 @@
 
                     let aktuellerText = textField.val()
 
-                    kommentarContainer.append(`<div class="kommentare">${aktuellerText}</div>`)
+                    kommentarContainer.append(`
+                    <div class="kommentare">
+                        ${aktuellerText} <button>löschen</button>
+                    </div>`)
                     counter = counter + 1
                     counterContainer.text(`Kommentare: ${counter}`)
                 })
@@ -58,6 +61,7 @@
     </head>
     <body>
         <input type="text" id="text-feld">
+        <input type="text" id="name-feld">
 
         <button id="mein-button">
             Adde Kommentar
