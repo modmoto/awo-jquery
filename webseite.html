@@ -30,7 +30,8 @@
                 let meinButton = $('#mein-button')
                 let kommentarContainer = $('#kommentar-container')
                 let counterContainer = $('#counter')
-                let textField = $('#text-feld')
+                let textField = $('#text-field')
+                let nameField = $('#name-field')
                 let playButton = $('#play-button')
                 
                 let kommentarWurdeGeadded = false
@@ -53,6 +54,7 @@
                 meinButton.click(() => {
                     counter = counter + 1
                     let aktuellerText = textField.val()
+                    let aktuellerName = nameField.val()
 
                     if(counter > 5) {
                         counterContainer.removeClass('green')
@@ -66,7 +68,7 @@
 
                     kommentarContainer.append(`
                     <div class="kommentare">
-                        ${aktuellerText} <button>löschen</button>
+                        ${aktuellerName} hat geschrieben: ${aktuellerText} <button>löschen</button>
                     </div>`)
                     counterContainer.text(`Kommentare: ${counter}`)
                 })
@@ -75,8 +77,14 @@
         </script>
     </head>
     <body>
-        <input type="text" id="text-feld">
-        <input type="text" id="name-feld">
+        <div>
+            <span>Name:</span>
+            <input type="text" id="name-field">
+        </div>
+        <div>
+            <span>Kommentar:</span>
+            <input type="text" id="text-field">
+        </div>
 
         <button id="mein-button">
             Adde Kommentar
