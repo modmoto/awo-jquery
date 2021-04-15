@@ -34,6 +34,7 @@
                 let meinButton = $('#mein-button')
                 let kommentarContainer = $('#kommentar-container')
                 let counterContainer = $('#counter')
+                let textField = $('#text-feld')
                 
                 let kommentarWurdeGeadded = false
                 let counter = 0
@@ -42,9 +43,11 @@
                     if (!kommentarWurdeGeadded) {
                         kommentarContainer.empty()
                         kommentarWurdeGeadded = true
-                    } 
+                    }
 
-                    kommentarContainer.append('<div class="kommentare">neu dazu</div>')
+                    let aktuellerText = textField.val()
+
+                    kommentarContainer.append(`<div class="kommentare">${aktuellerText}</div>`)
                     counter = counter + 1
                     counterContainer.text(`Kommentare: ${counter}`)
                 })
@@ -53,6 +56,8 @@
         </script>
     </head>
     <body>
+        <input type="text" id="text-feld">
+
         <button id="mein-button">
             Adde Kommentar
         </button>
