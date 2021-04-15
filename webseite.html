@@ -33,12 +33,15 @@
                 let textField = $('#text-field')
                 let nameField = $('#name-field')
                 let playButton = $('#play-button')
+                let volumeUpButton = $('#volume-up-button')
+                let volumeDownButton = $('#volume-down-button')
                 
                 let kommentarWurdeGeadded = false
                 let counter = 0
 
                 let audioFile = new Audio('cena.mp3')
                 let audioIsPlaying = false
+                audioFile.volume = 0.5
 
                 playButton.click(() => {
                     if (audioIsPlaying) {
@@ -49,6 +52,14 @@
                         audioFile.play()
                         audioIsPlaying = true
                     }
+                })
+
+                volumeUpButton.click(() => {
+                    audioFile.volume += 0.1
+                })
+
+                volumeDownButton.click(() => {
+                    audioFile.volume -= 0.1
                 })
 
                 meinButton.click(() => {
@@ -92,6 +103,14 @@
 
         <button id="play-button">
             Play/Stop Musik
+        </button>
+
+        <button id="volume-down-button">
+            -
+        </button>
+
+        <button id="volume-up-button">
+            +
         </button>
 
         <div id="counter" class="green">
