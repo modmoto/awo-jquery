@@ -36,6 +36,9 @@
                 let counter = 0
 
                 meinButton.click(() => {
+                    counter = counter + 1
+                    let aktuellerText = textField.val()
+
                     if(counter > 5) {
                         counterContainer.removeClass('green')
                         counterContainer.addClass('red')
@@ -46,13 +49,10 @@
                         kommentarWurdeGeadded = true
                     }
 
-                    let aktuellerText = textField.val()
-
                     kommentarContainer.append(`
                     <div class="kommentare">
                         ${aktuellerText} <button>löschen</button>
                     </div>`)
-                    counter = counter + 1
                     counterContainer.text(`Kommentare: ${counter}`)
                 })
             })
