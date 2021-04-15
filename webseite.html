@@ -4,6 +4,10 @@
         <title>
             Simons Webseite
         </title>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
         <style>
             h1 {
                 background-color: green;
@@ -16,25 +20,50 @@
                 background-color: olive;
                 border: 2px solid orange;
             }
+
+            .kommentare {
+                background-color: aquamarine;
+                margin: 10px;
+                padding: 20px;
+            }
+
         </style>
+
+        <script>
+            $('document').ready(() => {
+                let meinButton = $('#mein-button')
+                let kommentarContainer = $('#kommentar-container')
+                let counterContainer = $('#counter')
+                
+                let kommentarWurdeGeadded = false
+                let counter = 0
+
+                meinButton.click(() => {
+                    if (!kommentarWurdeGeadded) {
+                        kommentarContainer.empty()
+                        kommentarWurdeGeadded = true
+                    } 
+
+                    kommentarContainer.append('<div class="kommentare">neu dazu</div>')
+                    counter = counter + 1
+                    counterContainer.text(`Kommentare: ${counter}`)
+                })
+            })
+            
+        </script>
     </head>
     <body>
-        <h1>Willkommen in meinem Gästebuch</h1>
-        <h2>Mein Name ist Simon Heiss</h2>
-
-        <div>
-            hallo zusammen
-        </div>
-
-        <div>
-            ein weiteres DIV darunter
-        </div>
-
-        <img src="katze.jpg" width="200" height="200"></img>
-        
-        <h2>Das ist meine Katze</h2>
-        <button>
-            Klick mich
+        <button id="mein-button">
+            Adde Kommentar
         </button>
+
+        <div id="counter">
+            Kommentare: 0
+        </div>
+
+        <div id="kommentar-container">
+            keine Kommentare bis jetzt
+        </div>
+
     </body>
 </html>
