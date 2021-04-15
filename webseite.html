@@ -31,9 +31,24 @@
                 let kommentarContainer = $('#kommentar-container')
                 let counterContainer = $('#counter')
                 let textField = $('#text-feld')
+                let playButton = $('#play-button')
                 
                 let kommentarWurdeGeadded = false
                 let counter = 0
+
+                let audioFile = new Audio('cena.mp3')
+                let audioIsPlaying = false
+
+                playButton.click(() => {
+                    if (audioIsPlaying) {
+                        audioFile.pause()
+                        audioFile.currentTime = 0
+                        audioIsPlaying = false
+                    } else {
+                        audioFile.play()
+                        audioIsPlaying = true
+                    }
+                })
 
                 meinButton.click(() => {
                     counter = counter + 1
@@ -65,6 +80,10 @@
 
         <button id="mein-button">
             Adde Kommentar
+        </button>
+
+        <button id="play-button">
+            Play/Stop Musik
         </button>
 
         <div id="counter" class="green">
