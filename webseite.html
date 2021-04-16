@@ -39,7 +39,11 @@
 
                     response.data.reverse().forEach(kommentar => {
                         kommentarContainer.append(`
-                            <div class="kommentare">${kommentar.user} hat gesagt: ${kommentar.greeting} und hat ${kommentar.likes} likes</div>
+                            <div class="kommentare">
+                                <div>${kommentar.user} hat gesagt:</div>
+                                <div>${kommentar.greeting}</div>
+                                <div>Likes:${kommentar.likes}</div>
+                            </div>
                         `)
                     })
                 }
