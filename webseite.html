@@ -32,20 +32,22 @@
                 let counter = 0
 
 
-                let backendUrl = 'https://simon-guesbook-backend.herokuapp.com/greetings/simon'
+                let backendUrl = 'https://simon-guesbook-backend.herokuapp.com/greetings/simonheiss'
 
+                function displayResponseInHtml(response) {
+                    counterContainer.text(`Kommentare vom Backend: ${response.data.length}`)
+
+                    response.data.reverse().forEach(kommentar => {
+                        kommentarContainer.append(`
+                            <div class="kommentare">${kommentar.user} hat gesagt: ${kommentar.greeting} und hat ${kommentar.likes} likes</div>
+                        `)
+                    })
+                }
                 
                 axios.get(backendUrl)
                     .then(response => {
-                        counterContainer.text(`Kommentare vom Backend: ${response.data.length}`)
-
-                        response.data.forEach(kommentar => {
-                            kommentarContainer.append(`
-                                <div class="kommentare">${kommentar.user} hat gesagt: ${kommentar.greeting} und hat ${kommentar.likes} likes</div>
-                            `)
-                        })
+                        displayResponseInHtml(response)
                     })
-
 
                 meinButton.click(() => {
                     let aktuellerText = textField.val()
@@ -57,6 +59,9 @@
                     }
                     
                     axios.post(backendUrl, body)
+                        .then(response => {
+                            displayResponseInHtml(response)
+                        })
                 })
             })
             
