@@ -38,13 +38,34 @@
                     counterContainer.text(`Kommentare vom Backend: ${response.data.length}`)
 
                     response.data.reverse().forEach(kommentar => {
-                        kommentarContainer.append(`
+                        let deleteButton = $('<button>delete</button>')
+                            .click(() => {
+                                axios.delete(`${backendUrl}/${kommentar._id}`)
+                                    .then(response => {
+                                        kommentarContainer.empty()
+                                        displayResponseInHtml(response)
+                                    })
+                            })
+
+                        let likeButton = $('<button>like</button>')
+                            .click(() => {
+                                axios.put(`${backendUrl}/${kommentar._id}`)
+                                    .then(response => {
+                                        kommentarContainer.empty()
+                                        displayResponseInHtml(response)
+                                    })
+                            })
+
+                        kommentarContainer
+                        .append(`
                             <div class="kommentare">
                                 <div>${kommentar.user} hat gesagt:</div>
                                 <div>${kommentar.greeting}</div>
-                                <div>Likes:${kommentar.likes}</div>
+                                <div>Likes: ${kommentar.likes}</div>
                             </div>
                         `)
+                        .append(likeButton)
+                        .append(deleteButton)
                     })
                 }
                 
