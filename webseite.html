@@ -47,47 +47,16 @@
                     })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 meinButton.click(() => {
-                    counter = counter + 1
                     let aktuellerText = textField.val()
                     let aktuellerName = nameField.val()
 
-                    if(counter > 5) {
-                        counterContainer.removeClass('green')
-                        counterContainer.addClass('red')
+                    let body = {
+                        greeting: aktuellerText,
+                        user: aktuellerName
                     }
-
-                    if (!kommentarWurdeGeadded) {
-                        kommentarContainer.empty()
-                        kommentarWurdeGeadded = true
-                    }
-
-                    kommentarContainer.append(`
-                    <div class="kommentare">
-                        ${aktuellerName} hat geschrieben: ${aktuellerText} <button>löschen</button>
-                    </div>`)
-                    counterContainer.text(`Kommentare: ${counter}`)
+                    
+                    axios.post(backendUrl, body)
                 })
             })
             
