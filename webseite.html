@@ -60,6 +60,7 @@
                     
                     axios.post(backendUrl, body)
                         .then(response => {
+                            kommentarContainer.empty()
                             displayResponseInHtml(response)
                         })
                 })
