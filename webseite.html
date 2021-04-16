@@ -15,14 +15,6 @@
                 padding: 20px;
             }
 
-            .green {
-                background-color: green;
-            }
-
-            .red {
-                background-color: red;
-            }
-
         </style>
 
         <script>
@@ -39,28 +31,35 @@
                 let kommentarWurdeGeadded = false
                 let counter = 0
 
-                let audioFile = new Audio('cena.mp3')
-                let audioIsPlaying = false
-                audioFile.volume = 0.5
 
-                playButton.click(() => {
-                    if (audioIsPlaying) {
-                        audioFile.pause()
-                        audioFile.currentTime = 0
-                        audioIsPlaying = false
-                    } else {
-                        audioFile.play()
-                        audioIsPlaying = true
-                    }
-                })
+                let backendUrl = 'https://simon-guesbook-backend.herokuapp.com/greetings/simon'
 
-                volumeUpButton.click(() => {
-                    audioFile.volume += 0.1
-                })
+                axios.get(backendUrl)
+                    .then(response => {
+                        counterContainer.text(`Kommentare vom Backend: ${response.data.length}`)
+                    })
 
-                volumeDownButton.click(() => {
-                    audioFile.volume -= 0.1
-                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 meinButton.click(() => {
                     counter = counter + 1
