@@ -32,8 +32,11 @@
                 let counter = 0
 
 
+                // "[PATH_TO_CHROME]\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
+
                 let backendUrl = 'https://simon-guesbook-backend.herokuapp.com/greetings/simon'
 
+                
                 axios.get(backendUrl)
                     .then(response => {
                         counterContainer.text(`Kommentare vom Backend: ${response.data.length}`)
